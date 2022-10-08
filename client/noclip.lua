@@ -1,7 +1,5 @@
---[[
-  * Created by MiiMii1205
-  * license MIT
---]] -- Variables --
+local QRCore = exports['qr-core']:GetCoreObject()
+
 local MOVE_UP_KEY = 0xE8342FF2
 local MOVE_DOWN_KEY = 0xDE794E3E
 local CHANGE_SPEED_KEY = 0x8FFC75D6

@@ -1,5 +1,5 @@
+local QRCore = exports['qr-core']:GetCoreObject()
 
--- local MenuData = exports['ow-menubase']:GetMenus()
 
 local ShowingCoords = false
 local Invisible = false
@@ -108,7 +108,7 @@ end)
 
 playerOptions:On('open', function(menu)
   menu:ClearItems()
-  exports['qr-core']:TriggerCallback('admin:server:getplayers', function(players)
+  QRCore.Functions.TriggerCallback('admin:server:getplayers', function(players)
     for k,v in pairs(players) do
       menu:AddButton({
         icon = '⭐',
@@ -125,7 +125,7 @@ end)
 
 serverOptions:On('open', function(menu)
   menu:ClearItems()
-  exports['qr-core']:TriggerCallback('admin:server:hasperms', function(hasperms)
+  QRCore.Functions.TriggerCallback('admin:server:hasperms', function(hasperms)
     if hasperms then
       local menuSlider1 = menu:AddSlider({
         icon = '⛈️',
@@ -605,7 +605,7 @@ OpenBanMenu = function(banplayer)
         banreason = 'Unknown'
         banlength = nil
       else
-        exports['qr-core']:Notify(9, Lang:t('error.invalid_reason_length_ban'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+        QRCore.Functions.Notify(9, Lang:t('error.invalid_reason_length_ban'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
       end
     end
   })
@@ -634,14 +634,14 @@ OpenKickMenu = function(kickplayer)
         TriggerServerEvent('admin:server:kick', kickplayer, banreason)
         kickreason = 'Unknown'
       else
-        exports['qr-core']:Notify(9, Lang:t('error.missing_reason'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+        QRCore.Functions.Notify(9, Lang:t('error.missing_reason'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
       end
     end
   })
 end
 
 OpenPermsMenu = function(permsplayer)
-  exports['qr-core']:TriggerCallback('admin:server:hasperms', function(hasperms)
+  QRCore.Functions.TriggerCallback('admin:server:hasperms', function(hasperms)
     if hasperms then
       local permMenu = MenuV:CreateMenu(false, Lang:t('menu.perms'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test8')
       permMenu:ClearItems()
@@ -689,10 +689,10 @@ OpenPermsMenu = function(permsplayer)
         select = function(btn)
           if selectedgroup ~= 'Unknown' then
             TriggerServerEvent('admin:server:setpermission', permsplayer.id, selectedgroup)
-            exports['qr-core']:Notify(9, Lang:t('success.changed_perms'), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+            QRCore.Functions.Notify(9, Lang:t('success.changed_perms'), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
             selectedgroup = 'Unknown'
           else
-            exports['qr-core']:Notify(9, Lang:t('error.changed_perm_failed'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+            QRCore.Functions.Notify(9, Lang:t('error.changed_perm_failed'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
           end
         end
       })
@@ -712,7 +712,7 @@ CopyToClipboard = function(dataType)
     SendNUIMessage({
         string = string.format('vector3(%s, %s, %s)', x, y, z)
     })
-    exports['qr-core']:Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
   elseif dataType == 'coords4' then
     local coords = GetEntityCoords(ped)
     local x = round(coords.x, 2)
@@ -723,14 +723,14 @@ CopyToClipboard = function(dataType)
     SendNUIMessage({
         string = string.format('vector4(%s, %s, %s, %s)', x, y, z, h)
     })
-    exports['qr-core']:Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
   elseif dataType == 'heading' then
     local heading = GetEntityHeading(ped)
     local h = round(heading, 2)
     SendNUIMessage({
         string = h
     })
-    exports['qr-core']:Notify(9, Lang:t("success.heading_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(9, Lang:t("success.heading_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
   end
 end
 
@@ -760,7 +760,7 @@ RevivePlayer = function()
   SetEntityHealth(ped, 200)
   ClearPedBloodDamage(ped)
   TriggerServerEvent('hud:server:RelieveStress', 100)
-  exports['qr-core']:Notify(9, Lang:t('info.health'), 5000, 0, 'blips', 'blip_radius_search', 'COLOR_WHITE')
+  QRCore.Functions.Notify(9, Lang:t('info.health'), 5000, 0, 'blips', 'blip_radius_search', 'COLOR_WHITE')
 end
 
 HealPlayer = function()
@@ -778,7 +778,7 @@ end
 
 GotoCoords = function(coords)
   if type(coords) ~= 'vector3' then
-    exports['qr-core']:Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+    QRCore.Functions.Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
   end
 
   local x = coords[1]
@@ -820,7 +820,7 @@ GotoMarker = function()
   if waypoint.x ~= 0 and waypoint.y ~= 0 then
     GotoCoords(vec3(waypoint.x, waypoint.y, 0))
   else
-    exports['qr-core']:Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+    QRCore.Functions.Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
   end
 end
 

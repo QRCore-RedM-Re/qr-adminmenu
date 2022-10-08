@@ -1,3 +1,4 @@
+local QRCore = exports['qr-core']:GetCoreObject()
 
 local ShowBlips = false
 local ShowNames = false
@@ -58,8 +59,8 @@ end
 RegisterNetEvent('admin:client:toggleNames', function()
 	ShowNames = not ShowNames
 	if not ShowNames then
-		exports['qr-core']:Notify(9, Lang:t("error.names_deactivated"), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		QRCore.Functions.Notify(9, Lang:t("error.names_deactivated"), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 	else
-		exports['qr-core']:Notify(9, Lang:t("success.names_activated"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+		QRCore.Functions.Notify(9, Lang:t("success.names_activated"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
 	end
 end)
