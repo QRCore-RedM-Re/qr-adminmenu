@@ -1,6 +1,6 @@
 local QRCore = exports['qr-core']:GetCoreObject()
-
 local frozen = false
+
 local permissions = {
   ['kill'] = 'admin',
   ['revive'] = 'admin',
@@ -17,12 +17,12 @@ local permissions = {
   ['perms'] = 'god',
 }
 
-QRCore.Functions.CreateCallback('admin', 'Open the admin menu (Admin Only)', {}, false, function(source)
+QRCore.Commands.Add('admin', 'Open the admin menu (Admin Only)', {}, false, function(source)
   local src = source
   TriggerClientEvent('admin:client:OpenMenu', src)
 end, 'admin')
 
-QRCore.Functions.CreateCallback('noclip', 'No Clip (Admin Only)', {}, false, function(source)
+QRCore.Commands.Add('noclip', 'No Clip (Admin Only)', {}, false, function(source)
 	local src = source
 	TriggerClientEvent('admin:client:ToggleNoClip', src)
 end, 'admin')
