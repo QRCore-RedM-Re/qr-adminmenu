@@ -1,6 +1,4 @@
 local QRCore = exports['qr-core']:GetCoreObject()
-
-
 local ShowingCoords = false
 local Invisible = false
 local Godmode = false
@@ -10,11 +8,11 @@ local deleteLazer = false
 
 local menuLocation = 'topright'
 local menuSize = 'size-125'
-local mainMenu = MenuV:CreateMenu(false, Lang:t('menu.admin_menu'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test1')
-local adminOptions = MenuV:CreateMenu(false, Lang:t('menu.admin_options'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test2')
-local playerOptions = MenuV:CreateMenu(false, Lang:t('menu.online_players'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test3')
-local serverOptions = MenuV:CreateMenu(false, Lang:t('menu.manage_server'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test4')
-local developerOptions = MenuV:CreateMenu(false, Lang:t('menu.developer_options'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test5')
+local mainMenu = MenuV:CreateMenu(false, Lang:t('menu.admin_menu'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test1')
+local adminOptions = MenuV:CreateMenu(false, Lang:t('menu.admin_options'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test2')
+local playerOptions = MenuV:CreateMenu(false, Lang:t('menu.online_players'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test3')
+local serverOptions = MenuV:CreateMenu(false, Lang:t('menu.manage_server'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test4')
+local developerOptions = MenuV:CreateMenu(false, Lang:t('menu.developer_options'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test5')
 
 local mainMenu_button1 = mainMenu:AddButton({
   icon = '😀',
@@ -411,7 +409,7 @@ developerOptions:On('open', function(menu)
 end)
 
 OpenPlayerMenu = function(player)
-  local playerMenu = MenuV:CreateMenu(false, player.id .. Lang:t('info.options'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test6')
+  local playerMenu = MenuV:CreateMenu(false, player.id .. Lang:t('info.options'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test6')
   playerMenu:ClearItems()
   MenuV:OpenMenu(playerMenu)
 
@@ -519,7 +517,7 @@ OpenPlayerMenu = function(player)
 end
 
 OpenBanMenu = function(banplayer)
-  local banMenu = MenuV:CreateMenu(false, Lang:t('menu.ban'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test9')
+  local banMenu = MenuV:CreateMenu(false, Lang:t('menu.ban'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test9')
   banMenu:ClearItems()
   MenuV:OpenMenu(banMenu)
 
@@ -605,14 +603,14 @@ OpenBanMenu = function(banplayer)
         banreason = 'Unknown'
         banlength = nil
       else
-        QRCore.Functions.Notify(9, Lang:t('error.invalid_reason_length_ban'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+        QRCore.Functions.Notify(Lang:t('error.invalid_reason_length_ban'), 'error')
       end
     end
   })
 end
 
 OpenKickMenu = function(kickplayer)
-  local kickMenu = MenuV:CreateMenu(false, Lang:t('menu.kick'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test7')
+  local kickMenu = MenuV:CreateMenu(false, Lang:t('menu.kick'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test7')
   kickMenu:ClearItems()
   MenuV:OpenMenu(kickMenu)
 
@@ -634,7 +632,7 @@ OpenKickMenu = function(kickplayer)
         TriggerServerEvent('admin:server:kick', kickplayer, banreason)
         kickreason = 'Unknown'
       else
-        QRCore.Functions.Notify(9, Lang:t('error.missing_reason'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+        QRCore.Functions.Notify(Lang:t('error.missing_reason'), 'error')
       end
     end
   })
@@ -643,7 +641,7 @@ end
 OpenPermsMenu = function(permsplayer)
   QRCore.Functions.TriggerCallback('admin:server:hasperms', function(hasperms)
     if hasperms then
-      local permMenu = MenuV:CreateMenu(false, Lang:t('menu.perms'), menuLocation, 220, 20, 60, menuSize, 'QRCore', 'menuv', 'test8')
+      local permMenu = MenuV:CreateMenu(false, Lang:t('menu.perms'), menuLocation, 220, 20, 60, menuSize, 'qrcore', 'menuv', 'test8')
       permMenu:ClearItems()
       MenuV:OpenMenu(permMenu)
 
@@ -689,10 +687,10 @@ OpenPermsMenu = function(permsplayer)
         select = function(btn)
           if selectedgroup ~= 'Unknown' then
             TriggerServerEvent('admin:server:setpermission', permsplayer.id, selectedgroup)
-            QRCore.Functions.Notify(9, Lang:t('success.changed_perms'), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+            QRCore.Functions.Notify(Lang:t('success.changed_perms'), 'success')
             selectedgroup = 'Unknown'
           else
-            QRCore.Functions.Notify(9, Lang:t('error.changed_perm_failed'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+            QRCore.Functions.Notify(Lang:t('error.changed_perm_failed'), 'error')
           end
         end
       })
@@ -712,7 +710,7 @@ CopyToClipboard = function(dataType)
     SendNUIMessage({
         string = string.format('vector3(%s, %s, %s)', x, y, z)
     })
-    QRCore.Functions.Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(Lang:t("success.coords_copied"), 'success')
   elseif dataType == 'coords4' then
     local coords = GetEntityCoords(ped)
     local x = round(coords.x, 2)
@@ -723,14 +721,14 @@ CopyToClipboard = function(dataType)
     SendNUIMessage({
         string = string.format('vector4(%s, %s, %s, %s)', x, y, z, h)
     })
-    QRCore.Functions.Notify(9, Lang:t("success.coords_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(Lang:t("success.coords_copied"), 'success')
   elseif dataType == 'heading' then
     local heading = GetEntityHeading(ped)
     local h = round(heading, 2)
     SendNUIMessage({
         string = h
     })
-    QRCore.Functions.Notify(9, Lang:t("success.heading_copied"), 5000, 0, 'hud_textures', 'check', 'COLOR_WHITE')
+    QRCore.Functions.Notify(Lang:t("success.heading_copied"), 'success')
   end
 end
 
@@ -760,7 +758,7 @@ RevivePlayer = function()
   SetEntityHealth(ped, 200)
   ClearPedBloodDamage(ped)
   TriggerServerEvent('hud:server:RelieveStress', 100)
-  QRCore.Functions.Notify(9, Lang:t('info.health'), 5000, 0, 'blips', 'blip_radius_search', 'COLOR_WHITE')
+  QRCore.Functions.Notify(Lang:t('info.health'), 'primary')
 end
 
 HealPlayer = function()
@@ -778,7 +776,7 @@ end
 
 GotoCoords = function(coords)
   if type(coords) ~= 'vector3' then
-    QRCore.Functions.Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+    QRCore.Functions.Notify(Lang:t('error.invalid_coords'), 'error')
   end
 
   local x = coords[1]
@@ -820,7 +818,7 @@ GotoMarker = function()
   if waypoint.x ~= 0 and waypoint.y ~= 0 then
     GotoCoords(vec3(waypoint.x, waypoint.y, 0))
   else
-    QRCore.Functions.Notify(9, Lang:t('error.invalid_coords'), 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+    QRCore.Functions.Notify(Lang:t('error.invalid_coords'), 'error')
   end
 end
 
